@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Threading;
 using ElectronicVotingServer.Client;
 using TCPServer;
+using Factory;
 
 namespace ElectronicVotingServer.Server
 {
@@ -13,6 +14,12 @@ namespace ElectronicVotingServer.Server
     {
         private static TcpListener _tcpListener;
         private readonly List<ClientModel> _clients = new List<ClientModel>();
+        public MainFactory MainFactory { get; } = new MainFactory();
+
+        public ServerModel()
+        {
+            MainFactory.RegisterTypes();
+        }
 
         protected internal void AddConnection(ClientModel clientModel)
         {

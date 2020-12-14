@@ -2,7 +2,9 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using ElectronicVoting.Extensions;
 using ElectronicVotingServer.Server;
+using Networking.Commands;
 
 namespace ElectronicVotingServer.Client
 {
@@ -45,9 +47,11 @@ namespace ElectronicVotingServer.Client
 
                 try
                 {
-                    var command = GetMessage();
-                    if (command.Length < 2) throw new Exception("Short message");
-                    Console.WriteLine($"source = {((IPEndPoint)_client.Client.LocalEndPoint).Address}, lenght = {command.Length}");
+                    var message = GetMessage();
+                    var command = CreateCommand(message);
+                    command.Execute();
+                    if (message.Length < 2) throw new Exception("Short message");
+                    Console.WriteLine($"source = {((IPEndPoint)_client.Client.LocalEndPoint).Address}, command = {command.Type}");
                 }
                 catch (Exception e)
                 {
@@ -57,7 +61,7 @@ namespace ElectronicVotingServer.Client
             }
 
             Close();
-            Server.RemoveConnection(this.Id);
+            Server.RemoveConnection(Id);
         }
 
         private string GetMessage()
@@ -73,6 +77,13 @@ namespace ElectronicVotingServer.Client
             while (Stream.DataAvailable);
  
             return builder.ToString();
+        }
+
+        private ICommand CreateCommand(string message)
+        {
+            var jsonData = fastJSON.JSON.Parse(message).ToDictionary();
+            var command = Server.MainFactory.CreateInstance<ICommand>(jsonData);
+            return command;
         }
 
         protected internal void Close()
