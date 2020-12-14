@@ -62,7 +62,7 @@ namespace ElectronicVotingServer.Client
 
         private string GetMessage()
         {
-            byte[] data = new byte[64];
+            byte[] data = new byte[250];
             StringBuilder builder = new StringBuilder();
             int bytes = 0;
             do
