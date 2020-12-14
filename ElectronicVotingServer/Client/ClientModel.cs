@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using ElectronicVotingServer.Server;
@@ -20,7 +21,6 @@ namespace ElectronicVotingServer.Client
             Server = serverModel;
             serverModel.AddConnection(this);
             Stream = _client.GetStream();
-
         }
 
 
@@ -46,9 +46,8 @@ namespace ElectronicVotingServer.Client
                 try
                 {
                     var command = GetMessage();
-                    //CommandManager.TryExecute(command, this, Server);
-                    var msg = Encoding.UTF8.GetString(command);
-                    Console.WriteLine(msg);
+                    if (command.Length < 2) throw new Exception("Short message");
+                    Console.WriteLine($"source = {((IPEndPoint)_client.Client.LocalEndPoint).Address}, lenght = {command.Length}");
                 }
                 catch (Exception e)
                 {
@@ -56,36 +55,35 @@ namespace ElectronicVotingServer.Client
                     break;
                 }
             }
-            Server.RemoveConnection(this.Id);
+
             Close();
+            Server.RemoveConnection(this.Id);
         }
 
-        private byte[] GetMessage()
+        private string GetMessage()
         {
             byte[] data = new byte[64];
+            StringBuilder builder = new StringBuilder();
             int bytes = 0;
-            int i = 0;
-            
             do
             {
-                i++;
                 bytes = Stream.Read(data, 0, data.Length);
-
+                builder.Append(Encoding.UTF8.GetString(data, 0, bytes));
             }
-            while (Stream.DataAvailable && _client.Client.Connected);
-            return data;
+            while (Stream.DataAvailable);
+ 
+            return builder.ToString();
         }
 
         protected internal void Close()
         {
-            if (Stream != null)
-                Stream.Close();
-            if (_client != null)
-                _client.Close();
+            Console.WriteLine("close");
+            Stream?.Close();
+            _client?.Close();
         }
         private void OnConnect()
         {
-
+            Console.WriteLine("шото подключилось");
         }
     }
 }
