@@ -49,7 +49,7 @@ namespace ElectronicVotingServer.Client
                 {
                     var message = GetMessage();
                     var command = CreateCommand(message);
-                    command.Execute();
+                    command.Execute(Server.Context, Id);
                     if (message.Length < 2) throw new Exception("Short message");
                     Console.WriteLine($"source = {((IPEndPoint)_client.Client.LocalEndPoint).Address}, command = {command.Type}");
                 }
@@ -82,7 +82,7 @@ namespace ElectronicVotingServer.Client
         private ICommand CreateCommand(string message)
         {
             var jsonData = fastJSON.JSON.Parse(message).ToDictionary();
-            var command = Server.MainFactory.CreateInstance<ICommand>(jsonData);
+            var command = Server.Context.MainFactory.CreateInstance<ICommand>(jsonData);
             return command;
         }
 

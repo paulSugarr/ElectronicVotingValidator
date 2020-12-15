@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ElectronicVoting.Extensions;
+using ElectronicVotingServer.Server;
 
 namespace Networking.Commands
 {
@@ -20,14 +21,14 @@ namespace Networking.Commands
             Message = info.GetString("message");
         }
 
-        private Dictionary<string, object> GetInfo()
+        public Dictionary<string, object> GetInfo()
         {
             var result = new Dictionary<string, object>();
             result.Add("type", Type);
             result.Add("message", Message);
             return result;
         }
-        public void Execute()
+        public void Execute(ValidatorContext context, string id)
         {
             Console.WriteLine(Message);
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using ElectronicVotingServer.Client;
 using TCPServer;
@@ -14,11 +15,12 @@ namespace ElectronicVotingServer.Server
     {
         private static TcpListener _tcpListener;
         private readonly List<ClientModel> _clients = new List<ClientModel>();
-        public MainFactory MainFactory { get; } = new MainFactory();
+        public ValidatorContext Context { get; }
+
 
         public ServerModel()
         {
-            MainFactory.RegisterTypes();
+            Context = new ValidatorContext(this);
         }
 
         protected internal void AddConnection(ClientModel clientModel)
@@ -56,24 +58,14 @@ namespace ElectronicVotingServer.Server
             }
         }
 
-        protected internal void BroadcastMessage(byte[] message, string id)
+        public void SendMessage(string message, string id)
         {
-            for (int i = 0; i < _clients.Count; i++)
-            {
-                if (_clients[i].Id != id) 
-                {
-                    _clients[i].Stream.Write(message, 0, message.Length);
-                }
-            }
-        }
-
-        protected internal void SendMessage(byte[] message, string id)
-        {
+            byte[] data = Encoding.UTF8.GetBytes(message);
             for (int i = 0; i < _clients.Count; i++)
             {
                 if (_clients[i].Id == id)
                 {
-                    _clients[i].Stream.Write(message, 0, message.Length);
+                    _clients[i].Stream.Write(data, 0, message.Length);
                 }
             }
         }

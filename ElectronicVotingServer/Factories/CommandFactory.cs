@@ -21,13 +21,12 @@ namespace Factory
         public ICommand CreateInstance(params object[] args)
         {
             var info = args[0].ToDictionary();
-            var type = info.GetString("type");
-            return CreateInstance(type, info);
+            return CreateInstance(info);
         }
-        public ICommand CreateInstance(string id, Dictionary<string, object> info)
+        public ICommand CreateInstance(Dictionary<string, object> info)
         {
             var type = _registeredTypes[(string) info["type"]];
-            return (ICommand) Activator.CreateInstance(type, id, info);
+            return (ICommand) Activator.CreateInstance(type, info);
         }
     }
 }
