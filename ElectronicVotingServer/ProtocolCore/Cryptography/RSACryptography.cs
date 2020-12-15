@@ -61,7 +61,7 @@ namespace ElectronicVoting.Cryptography
 
             var m = BigInt.ModPow(s, e, n);
             var result = m.ToByteArray();
-            
+
             return result.SequenceEqual(data);
         }
 

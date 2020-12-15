@@ -31,7 +31,7 @@ namespace Networking.Commands
             var key = context.Validator.PublicKey;
             var commandData = new Dictionary<string, object>();
             commandData.Add("type", "set_validator_key");
-            commandData.Add("key", key);
+            commandData.Add("key", key.GetChangeableCopy());
             var command = context.MainFactory.CreateInstance<ICommand>(commandData);
             var json = fastJSON.JSON.ToJSON(command.GetInfo());
             context.Server.SendMessage(json, id);

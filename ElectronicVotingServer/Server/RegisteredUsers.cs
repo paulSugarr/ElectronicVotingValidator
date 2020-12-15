@@ -17,6 +17,10 @@ namespace ElectronicVotingServer.Server
         {
             _users[userId] = key;
         }
-        
+
+        public Dictionary<string, object> GetSignKey(string id)
+        {
+            return new Dictionary<string, object>(_users[id]);
+        }
     }
 }
