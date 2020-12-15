@@ -13,6 +13,7 @@ namespace Networking.Commands
         {
             Type = "validator_sign";
             Signed = signed;
+            //
         }
         public SendElectorSignedCommand(Dictionary<string, object> info)
         {
