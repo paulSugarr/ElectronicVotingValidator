@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ElectronicVotingServer.Server;
+using ElectronicVotingValidator.Server;
 
 namespace Networking.Commands
 {

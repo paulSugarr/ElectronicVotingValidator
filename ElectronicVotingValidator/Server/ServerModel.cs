@@ -5,12 +5,12 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using ElectronicVotingServer.Client;
+using ElectronicVotingValidator.Client;
 using TCPServer;
 using Factory;
 using Networking.Commands;
 
-namespace ElectronicVotingServer.Server
+namespace ElectronicVotingValidator.Server
 {
     public class ServerModel
     {

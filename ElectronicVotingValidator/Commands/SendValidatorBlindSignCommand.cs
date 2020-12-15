@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ElectronicVoting.Extensions;
-using ElectronicVotingServer.Server;
+using ElectronicVotingValidator.Server;
 
 namespace Networking.Commands
 {

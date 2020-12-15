@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ElectronicVoting.Extensions;
-using ElectronicVotingServer.Server;
+using ElectronicVotingValidator.Server;
 
 namespace Networking.Commands
 {

@@ -2,7 +2,7 @@
 using ElectronicVoting.Validators;
 using Factory;
 
-namespace ElectronicVotingServer.Server
+namespace ElectronicVotingValidator.Server
 {
     public class ValidatorContext
     {
