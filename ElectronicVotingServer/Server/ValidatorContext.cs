@@ -10,6 +10,7 @@ namespace ElectronicVotingServer.Server
         public Validator Validator { get; }
         public ServerModel Server { get; }
         public MainFactory MainFactory { get; }
+        public RegisteredUsers RegisteredUsers { get; }
 
         public ValidatorContext(ServerModel server)
         {
@@ -21,6 +22,9 @@ namespace ElectronicVotingServer.Server
 
             MainFactory = new MainFactory();
             MainFactory.RegisterTypes();
+            
+            RegisteredUsers = new RegisteredUsers();
+            RegisteredUsers.RegisterUsers();
         }
     }
 }

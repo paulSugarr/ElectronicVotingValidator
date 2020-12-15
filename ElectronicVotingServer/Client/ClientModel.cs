@@ -66,7 +66,7 @@ namespace ElectronicVotingServer.Client
 
         private string GetMessage()
         {
-            byte[] data = new byte[250];
+            byte[] data = new byte[1024];
             StringBuilder builder = new StringBuilder();
             int bytes = 0;
             do
@@ -81,6 +81,7 @@ namespace ElectronicVotingServer.Client
 
         private ICommand CreateCommand(string message)
         {
+            Console.WriteLine($"msg = {message}");
             var jsonData = fastJSON.JSON.Parse(message).ToDictionary();
             var command = Server.Context.MainFactory.CreateInstance<ICommand>(jsonData);
             return command;
@@ -88,13 +89,13 @@ namespace ElectronicVotingServer.Client
 
         protected internal void Close()
         {
-            Console.WriteLine("close");
+            Console.WriteLine($"отключен {Id}");
             Stream?.Close();
             _client?.Close();
         }
         private void OnConnect()
         {
-            Console.WriteLine("шото подключилось");
+            Console.WriteLine($"подключился {Id}");
         }
     }
 }
