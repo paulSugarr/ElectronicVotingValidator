@@ -8,6 +8,7 @@ using System.Threading;
 using ElectronicVotingServer.Client;
 using TCPServer;
 using Factory;
+using Networking.Commands;
 
 namespace ElectronicVotingServer.Server
 {
@@ -68,6 +69,12 @@ namespace ElectronicVotingServer.Server
                     _clients[i].Stream.Write(data, 0, message.Length);
                 }
             }
+        }
+        public void SendCommand(ICommand command, string id)
+        {
+            var commandInfo = command.GetInfo();
+            var message = fastJSON.JSON.ToJSON(commandInfo);
+            SendMessage(message, id);
         }
 
         protected internal void Disconnect()

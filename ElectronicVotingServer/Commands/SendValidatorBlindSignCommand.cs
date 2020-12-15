@@ -46,6 +46,8 @@ namespace Networking.Commands
             {
                 var signedByValidator = validator.SignBulletin(Blinded);
                 Console.WriteLine("bulletin validated");
+                var command = new SendElectorSignedCommand(signedByValidator);
+                context.Server.SendCommand(command, id);
             }
         }
     }
