@@ -66,7 +66,7 @@ namespace ElectronicVotingValidator.Client
 
         private string GetMessage()
         {
-            byte[] data = new byte[1024];
+            byte[] data = new byte[4096];
             StringBuilder builder = new StringBuilder();
             int bytes = 0;
             do
