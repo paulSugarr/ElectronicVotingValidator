@@ -15,6 +15,7 @@ namespace Networking.Commands
             _types.Add("set_elector_key", typeof(SetElectorKeyCommand));
             _types.Add("elector_blind_sign", typeof(SendValidatorBlindSignCommand));
             _types.Add("validator_sign", typeof(SendElectorSignedCommand));
+            _types.Add("decline_vote", typeof(DeclineVoteCommand));
         }
         public Type this[string id]
         {

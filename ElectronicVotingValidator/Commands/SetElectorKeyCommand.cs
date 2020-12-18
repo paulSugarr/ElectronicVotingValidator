@@ -32,8 +32,11 @@ namespace Networking.Commands
         }
         public void Execute(ValidatorContext context, string connectionId)
         {
-            context.RegisteredUsers.FillUserKey(Id, Key);
-            Console.WriteLine($"User {Id} registered");
+            if (context.RegisteredUsers.CanRegister(Id))
+            {
+                context.RegisteredUsers.FillUserKey(Id, Key);
+                Console.WriteLine($"User {Id} registered");
+            }
         }
     }
 }

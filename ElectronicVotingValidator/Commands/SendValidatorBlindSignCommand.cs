@@ -41,11 +41,16 @@ namespace Networking.Commands
         public void Execute(ValidatorContext context, string id)
         {
             var validator = context.Validator;
-
-            if (validator.VerifyBulletin(BlindedSigned, Blinded, context.RegisteredUsers.GetSignKey(Id)))
+            if (!context.RegisteredUsers.CanVote(Id))
+            {
+                var command = new DeclineVoteCommand();
+                context.Server.SendCommand(command, id);
+            }
+            else if (validator.VerifyBulletin(BlindedSigned, Blinded, context.RegisteredUsers.GetSignKey(Id)))
             {
                 var signedByValidator = validator.SignBulletin(Blinded);
                 Console.WriteLine("bulletin validated");
+                context.RegisteredUsers.SetVoted(Id);
                 var command = new SendElectorSignedCommand(signedByValidator);
                 context.Server.SendCommand(command, id);
             }
