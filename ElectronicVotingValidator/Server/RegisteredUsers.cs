@@ -14,7 +14,10 @@ namespace ElectronicVotingValidator.Server
             
             _users.Add("paul", null);
         }
-
+        public bool CanLogin(string userId)
+        {
+            return _users.ContainsKey(userId);
+        }
         public bool CanRegister(string userId)
         {
             return _users.ContainsKey(userId) && _users[userId] == null;

@@ -37,6 +37,10 @@ namespace Networking.Commands
                 context.RegisteredUsers.FillUserKey(Id, Key);
                 Console.WriteLine($"User {Id} registered");
             }
+
+            var canLogin = context.RegisteredUsers.CanLogin(Id);
+            var command = new LoginAcceptanceCommand(canLogin);
+            context.Server.SendCommand(command, connectionId);
         }
     }
 }
